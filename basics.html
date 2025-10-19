@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Basics</title>
+</head>
+<body>
+    <header>
+       <h1>JavaScript Basics</h1>
+    </header>
+
+    <main>
+        <h2>Variables</h2>
+
+        <h2>Decision Logic - if/else</h2>
+
+        <h2>Functions</h2>
+
+        <h2>Loops</h2>
+    </main>
+    <!-- When you want to use JavaScript code, put it between script tags -->
+    <script>
+        // Single line comment
+        /* Multi line comment */
+
+        /* ******* variables ******* */
+
+        // Let's create our first variable
+        // var is less concerned with scope
+        var FirstName = "Trinket"; // This is a string variable
+
+        // let is very concerned with scope
+        let First_Name = "Trinket"; // This is a string variable
+
+        // JavaScript is a dynamically-type language
+        // JavaScript tries to guess the variable type of your variables
+        let Age = 20; //JavaScript will assume this is an integer (int) - a whole number
+
+        let Pi = 3.14; //JavaScript will assume this is a float (decimal points)
+
+        let ValidInput = false; //JavaScript will assume this is a boolean - true/false
+
+        let LastName = ""; // We will set this up as a variable now and get the value later
+
+        // This is a valid way to set up a variable in JavaScript
+        //Please use let or var though
+        MiddleName = "Joseph";
+
+        /* ******* if/else - desicion logic ******* */
+
+        // == is equal
+        // = is assignment - Variable = Value
+        // === is where JavaScript will compare both the value and data type
+        if (age == 10){
+            // If the age is 10, do something
+            console.log("age is 10")
+        }
+        // The else is a catch-all
+        else{
+            console.log("Age is not 10")
+        }
+
+        function AddNumbars(num1, num2){
+            return num1 + num2;
+        }
+
+        for(let i=0; i < 18; i++){
+            console.log("i=" + i.toString);
+        }
+   </script>
+</body>
+</html>
