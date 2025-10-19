@@ -3,7 +3,7 @@
 // () can hold function argument - if you need to pass in information to the function
 function PlayCraps(){
     // Log that the function was called
-    console.log("PlayCraps() function was called");
+    // console.log("PlayCraps() function was called");
 
     // Roll die 1
     let Roll1 = RollDice();
@@ -11,8 +11,8 @@ function PlayCraps(){
     // Roll die 2
     let Roll2 = RollDice();
 
-    Console.log("Roll1=" + Roll1);
-    Console.log("Roll2=" + Roll2);
+    // Console.log("Roll1=" + Roll1);
+    // Console.log("Roll2=" + Roll2);
 
     // Caluclate the rolls
     let Sum = Roll1 + Roll2;
@@ -24,7 +24,7 @@ function PlayCraps(){
     // || means or
     // && means and
     if(Sum == 7 || Sum == 11){
-        console.log("You Lost");
+        // console.log("You Lost");
         Result = "You Lost!";
     }
     // Check if we rolled an even number
@@ -35,12 +35,12 @@ function PlayCraps(){
     // Roll1 % 2 == 0 - this will be true if we have an even number
     // We also need to make sure that Roll1 and Roll2 were the same
     else if(Roll1 % 2 == 0 && Roll1 == Roll2){
-        console.log("You Won");
+        // console.log("You Won");
         Result = "You Won!";
     }
     // The catch-all else statement if neither above statement valued true
     else{
-        console.log("You Push");
+        // console.log("You Push");
         Result = "You Push";
     }
 
