@@ -13,12 +13,15 @@
     <!-- link to external CSS file -->
     <link rel="stylesheet" href="main.css">
     <!-- embedded CSS styles -->
-     <style>
-        body{
+    <style>
+         body{
             background-color:rgb(179, 0, 179);
             color:gold
         }
-     </style>
+    </style>
+    
+    <!-- link to external .js file that moves the image -->
+     <script src="imageMover.js"></script>
 </head>   
 <!-- everything the user sees goes in the body -->
 <body>
@@ -35,9 +38,14 @@
             <br>
         </nav>
     </header>
+    <div>
+        <button id="btnStart" onclick="startMove();">Start Move</button>
+        <!-- the stop button should not be clickable when the page loads, that is what disabled="true" does -->
+        <button id="btnStop" onclick="stopMove();" disabled="true">Stop Move</button>
+    </div>
     <!-- this is a paragraph -->
     <p>
-        <img src="World_Turtle.jpg" width="500" id="HelloWorld" 
+        <img src="World_Turtle.jpg" width="500" id="HelloWorld">
     </p>
 
     <!-- the footer section is where we put legal info and maybe a sitemap -->
