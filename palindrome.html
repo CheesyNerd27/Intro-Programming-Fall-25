@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome Tester</title>
+
+    <script src="palindromeTester.js">
+    </script>
+
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <h1>Palindrome Tester</h1>
+
+        <nav>
+        <a href="index.html">Home</a>
+        <br>
+    </nav>
+    </header>
+
+    <main>
+        <!-- make it so the form will not submit since this is a client-side test -->
+        <form onsubmit="return false;">
+            <label for="txtInput">Word to test: </label>
+            <input type="text" id="txtInput" required>
+
+            <button onclick="testPalin();">Test Word</button>
+        </form>
+
+        <div id="divResult"></div>
+    </main>
+
+    <footer>
+        Trinket Quance
+        <br>
+        University of Advancing Technology
+        <br>
+        2625 W Baseline Rd
+        <br>
+        Tempe, AZ 85283
+        <br>
+    </footer>
+</body>
+</html>

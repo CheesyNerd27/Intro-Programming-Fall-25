@@ -34,7 +34,7 @@ function PlayCraps(){
     // 5/2 = 2 with a remainder = odd number
     // Roll1 % 2 == 0 - this will be true if we have an even number
     // We also need to make sure that Roll1 and Roll2 were the same
-    else if(Roll1 % 2 == 0 && Roll1 == Roll2){
+    else if(Roll1 % 1 == 0 && Roll1 == Roll2){
         // console.log("You Won");
         Result = "You Won!";
     }
@@ -58,7 +58,7 @@ function PlayCraps(){
 
 }
 
-//Create a function to generate a random number
+// Create a function to generate a random number
 function RollDice(){
     // Create a variable to hold a random number
     // Math.random() is a built in JavaScript function that generates a random number   

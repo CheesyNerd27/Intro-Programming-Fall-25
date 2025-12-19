@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table</title>
+
+    <link rel="stylesheet" href="main.css">
+
+    <style>
+        table{
+            max-width: 400px;
+            /* multiple borders in the same area will collapse into a single border */
+            border-collapse: collapse;
+        }
+
+        tr, th, td{
+            padding: 10px;
+        }
+
+        tr{
+            border: 2px solid purple;
+        }
+
+        th{
+            background-color: purple;
+            color: gold;
+            text-align: left;
+        }
+
+        tr:nth-child(even){
+            background-color: gold;
+            color: rgb(153, 102, 204);
+        }
+
+        tr:hover{
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Programming Mistakes</h1>
+
+            <nav>
+                <a href="index.html">Home</a>
+                <br>
+            </nav>
+        </header>
+
+        <table id="tblData">
+            <caption>Programming mistakes and the costs</caption>
+            <!-- tr is table row - each row should be in a tr -->
+            <!-- <tr>
+                td - table data/cell/column - the actual data goes here
+                <td></td>
+                <td></td>
+            </tr> -->
+            <tr>
+                <!-- th is the table heading -->
+                <td>Project</td>
+                <td>Year</td>
+                <td>Cost</td>
+            </tr>
+        </table>
+    </main>
+
+    <script>
+        // function to load the data into the table
+        function loadData(){
+            // array of problem projects - 2D array
+            let arrProblems = [
+                // first row of data
+                ["Crowdstrike", 2024, "$5.4B"],
+                ["Facebook", 2020, "$90M"],
+                ["Citibank", 2020, "900M"],
+                ["Mars Climate Orbiter", 1999, "$327M"]
+            ];
+
+            // nested for loops to display the data
+            for (let i=0; i<arrProblems.length; i++){
+                // create the table row to store the data
+                let tr = document.createElement("tr");
+
+                // loop through each nested array
+                for (let j=0; j<arrProblems[i].length; j++){
+                    // create the table to display 1 piece of data
+                    let td = document.createElement("td");
+
+                    // put the data in the td
+                    td.textContent = arrProblems[i][j];
+
+                    // append the new data to the existing row
+                    tr.appendChild(td);
+                }
+
+                // add the new row to the existing table
+                document.getElementById("tblData").appendChild(tr);
+            }
+        }
+
+        loadData();
+    </script>
+
+    <footer>
+        Trinket Quance
+        <br>
+        University of Advancing Technology
+        <br>
+        2625 W Baseline Rd
+        <br>
+        Tempe, AZ 85283
+        <br>
+    </footer>
+</body>
+</html>

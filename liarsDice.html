@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liars Dice</title>
+
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <h1>
+            Liars Dice
+        </h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <br>
+    </nav>
+
+    <main>
+        <p>
+            Rules
+            <br>You and the NPC both begin with five dice. You both roll and cannot see each others rolls. You go back and forth placing bets on how many of a certain number value are present among your rolls. You can either bet a higher 
+        </p>
+
+        <button onclick="playLiars()">Begin new game</button>
+
+        <div id="divRolls"></div>
+
+        <div id="divBet"></div>
+
+        <form method="post" action="#" name="frmBet" id="frmBet" onsubmit="return false">
+            <label for="newBetAmount">Bet amount: </label>
+            <input type="number" name="newBetAmount" id="newBetAmount">
+
+            <label for="newBetNumber">Bet number: </label>
+            <input type="number" name="newBetNumber" id="newBetNumber">
+
+            <button onclick="changeBet()">Raise the bet</button>
+        </form>
+
+        <button onclick="accuseLiar()">Accuse the NPC</button>
+    </main>
+
+    <script>
+        function playLiars(){
+
+            let playerDice = 5;
+            let NPCDice = 5;
+
+            let currentBetAmount = 0;
+            let currentBetNumber = 6;
+
+            beginRound();
+        }
+
+        function beginRound(){
+
+            let playerRoll1 = RollDice();
+            let playerRoll2 = RollDice();
+            let playerRoll3 = RollDice();
+            let playerRoll4 = RollDice();
+            let playerRoll5 = RollDice();
+
+            let NPCRoll1 = RollDice();
+            let NPCRoll2 = RollDice();
+            let NPCRoll3 = RollDice();
+            let NPCRoll4 = RollDice();
+            let NPCRoll5 = RollDice();
+
+            document.getElementById("divRolls").textContent = "Rolls: " + playerRoll1 + " " + playerRoll2 + " " + playerRoll3 + " " + playerRoll4 + " " + playerRoll5;
+
+            if(currentPlayer = false){
+                NPCTurn();
+            }
+        }
+
+        function changeBet(){
+            let newBetAmount = document.getElementById("newBetAmount");
+            let newBetNumber = document.getElementById("newBetNumber");
+
+            let currentBetAmount;
+            let currentBetNumber;
+
+            if(newBetAmount > currentBetAmount && newBetNumber <= 6){
+                let currentBetAmount = newBetAmount;
+                let currentBetNumber = newBetNumber;
+            }
+            else if(newBetAmount = currentBetAmount && newBetNumber > currentBetNumber && newBetNumber <= 6){
+                let currentBetAmount = newBetAmount;
+                let currentBetNumber = newBetNumber;
+            }
+
+            document.getElementById("divBet").textContent = "Current bet: " + currentBetAmount + " " + currentBetNumber + "'s";
+
+            NPCTurn();
+        }
+
+        function accuseLiar(){
+
+        }
+
+        function NPCTurn(){
+
+            let NPCAction = Math.random() * 3;
+
+            if(NPCAction = 1){
+                let currentBetAmount = currentBetAmount ++;
+            }
+            else if(NPCAction = 2 && currentBetNumber != 6){
+                let currentBetNumber = currentBetNumber ++;
+            }
+            else{
+
+            }
+        }
+
+        // Create a function to generate a random number
+        // This function was reused from the craps game script
+        function RollDice(){
+            // Create a variable to hold a random number
+            // Math.random() is a built in JavaScript function that generates a random number   
+            let Die = Math.random() * 6; // Multiplies number is the possible maximum
+
+            // Round the number and return the value
+            return Math.ceil(Die);
+        }
+    </script>
+
+    <footer>
+        Trinket Quance
+        <br>
+        University of Advancing Technology
+        <br>
+        2625 W Baseline Rd
+        <br>
+        Tempe, AZ 85283
+        <br>
+    </footer>
+</body>
+</html>

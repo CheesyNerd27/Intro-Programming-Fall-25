@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Sound</title>
+
+    <script src="soundControls.js"></script>
+
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <h1>Audio Player</h1>
+
+        <nav>
+        <a href="index.html">Home</a>
+        <br>
+    </nav>
+    </header>
+
+    <main>
+        <h2>Play Sound</h2>
+        <!-- div to hold the dynamically created audio element -->
+        <div id="divAudio"></div>
+
+        <!-- button to add audio to the page -->
+        <button id="btnAddAudio" onclick="addAudio();">Add Audio</button>
+
+        <!-- buttons to play and pause the audio -->
+        <button id="btnPlayAudio" onclick="playAudio();" hidden="true">Play Audio</button>
+        <button id="btnPauseAudio" onclick="pauseAudio();" hidden="true">Pause Audio</button>
+    </main>
+
+    <footer>
+        Trinket Quance
+        <br>
+        University of Advancing Technology
+        <br>
+        2625 W Baseline Rd
+        <br>
+        Tempe, AZ 85283
+        <br>
+    </footer>
+</body>
+</html>
