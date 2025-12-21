@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liars Dice</title>
 
+    <!-- adds in the css stylesheet -->
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -12,117 +13,354 @@
         <h1>
             Liars Dice
         </h1>
-    </header>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <br>
-    </nav>
+        <!-- navigation to the home page -->
+        <nav>
+            <a href="index.html">Home</a>
+            <br>
+        </nav>
+    </header>
 
     <main>
         <p>
-            Rules
-            <br>You and the NPC both begin with five dice. You both roll and cannot see each others rolls. You go back and forth placing bets on how many of a certain number value are present among your rolls. You can either bet a higher 
+            <h2>Rules</h2>
+            <br>You and the NPC both begin with five dice. You both roll and cannot see each others rolls. You go back and forth placing bets on how many of a certain number value are present among your rolls. You can either bet a higher amount of any number or a higher number at the current amount. If you accuse the NPC of lying then its bet is checked against all of the dice rolls, and if you are correct it loses a dice, but if you are wrong you lose a dice. The game ends when one of you has no dice remaining.
         </p>
 
+        <!-- New game button -->
         <button onclick="playLiars()">Begin new game</button>
 
-        <div id="divRolls"></div>
+        <!-- displays the player's dice rolls -->
+        <div id="divPlayerRolls"></div>
 
+        <!-- displays how many dice the NPC has left -->
+        <div id="divNPCDice"></div>
+
+        <!-- displays the current bet -->
         <div id="divBet"></div>
 
+        <!-- form allowing inputs for the bet amount and number -->
         <form method="post" action="#" name="frmBet" id="frmBet" onsubmit="return false">
-            <label for="newBetAmount">Bet amount: </label>
+            <!-- bet amount input -->
+            <label for="newBetAmount" hidden="true">Bet amount: </label>
             <input type="number" name="newBetAmount" id="newBetAmount">
 
-            <label for="newBetNumber">Bet number: </label>
+            <!-- bet number input -->
+            <label for="newBetNumber" hidden="true">Bet number: </label>
             <input type="number" name="newBetNumber" id="newBetNumber">
 
-            <button onclick="changeBet()">Raise the bet</button>
+            <br>
+
+            <!-- bet change button -->
+            <button id="btnChangeBet" onclick="changeBet()" hidden="true">Raise the bet</button>
         </form>
 
-        <button onclick="accuseLiar()">Accuse the NPC</button>
+        <!-- accuse NPC button -->
+        <button id="btnAccuseLiar" onclick="accuseLiar()" hidden="true">Accuse the NPC</button>
+
+        <!-- displays round results and game end messages -->
+        <div id="divResult"></div>
+
+        <br>
+
+        <!-- begin round button -->
+        <button id="btnBeginRound" onclick="beginRound()" hidden="true">Begin next round</button>
     </main>
 
     <script>
+
+        // variables for how many dice the player and NPC have
+        // both start at 5 when you begin the game
+        let playerDice = 5;
+        let NPCDice = 5;
+
+        // variables for the bet
+        // by putting the default bet at 0 6's, it forces the player to enter a legal bet of at least 1 1's
+        let currentBetAmount = 0;
+        let currentBetNumber = 6;
+
+        // variables for the arrays that will hold the dice rolls
+        let arrPlayerRolls = [];
+        let arrNPCRolls = [];
+        let arrAllRolls = [];
+
+        /* --------------------
+           START A NEW GAME
+        -------------------- */
         function playLiars(){
 
-            let playerDice = 5;
-            let NPCDice = 5;
+            // resets the player and NPC dice amounts
+            playerDice = 5;
+            NPCDice = 5;
 
-            let currentBetAmount = 0;
-            let currentBetNumber = 6;
+            // resets the bet
+            currentBetAmount = 0;
+            currentBetNumber = 6;
 
+            // unhides the change bet and accuse liar buttons
+            // this allows the player to use the actions they need to
+            document.getElementById("btnChangeBet").hidden =false;
+            document.getElementById("btnAccuseLiar").hidden =false;
+
+            // calls the begin round function
             beginRound();
         }
 
+        /* --------------------
+           START A NEW ROUND
+        -------------------- */
         function beginRound(){
 
-            let playerRoll1 = RollDice();
-            let playerRoll2 = RollDice();
-            let playerRoll3 = RollDice();
-            let playerRoll4 = RollDice();
-            let playerRoll5 = RollDice();
+            // hides the begin round button and unhides the change bet and accuse NPC
+            // this prevents the player from beginning a new round before the current one is finished
+            document.getElementById("btnBeginRound").hidden =true;
+            document.getElementById("btnChangeBet").hidden =false;
+            document.getElementById("btnAccuseLiar").hidden =false;
 
-            let NPCRoll1 = RollDice();
-            let NPCRoll2 = RollDice();
-            let NPCRoll3 = RollDice();
-            let NPCRoll4 = RollDice();
-            let NPCRoll5 = RollDice();
+            // resets the bet to the default
+            currentBetAmount = 0;
+            currentBetNumber = 6;
 
-            document.getElementById("divRolls").textContent = "Rolls: " + playerRoll1 + " " + playerRoll2 + " " + playerRoll3 + " " + playerRoll4 + " " + playerRoll5;
+            // resets the dice roll arrays to be empty
+            arrPlayerRolls = [];
+            arrNPCRolls = [];
+            arrAllRolls = [];
 
-            if(currentPlayer = false){
+            // rolls the player's dice for how many they have
+            for (let i=0; i < playerDice; i++){
+                arrPlayerRolls.push(RollDice());
+            }
+
+            // displays the players rolls to them
+            document.getElementById("divPlayerRolls").textContent = "Your rolls: " + arrPlayerRolls;
+
+            // updates the display of how many dice the NPC has left
+            document.getElementById("divNPCDice").textContent = "NPC has " + NPCDice + " dice";
+
+            // updates the current bet display to remove the previous rounds bet
+            document.getElementById("divBet").textContent = "Current bet: None";
+
+            // updates the result display with nothing to remove the previous rounds result
+            document.getElementById("divResult").textContent = "";
+
+            // rolls the NPC's dice for how many they have
+            for (let i=0; i < NPCDice; i++){
+                arrNPCRolls.push(RollDice());
+            }
+
+            // combines the player and NPC rolls into one array
+            // combining these makes it easier to test all of the rolls against the bet later
+            arrAllRolls = arrPlayerRolls.concat(arrNPCRolls);
+
+            // console.log("Player rolls=" + arrPlayerRolls);
+            // console.log("NPC rolls=" + arrNPCRolls);
+            // console.log("All rolls" + arrAllRolls);
+
+        }
+
+        /* --------------------
+           PLAYER RAISES BET
+        -------------------- */
+        function changeBet(){
+            // converts the bet amount and number inputs into usable variables
+            let newBetAmount = Number(document.getElementById("newBetAmount").value);
+            let newBetNumber = Number(document.getElementById("newBetNumber").value);
+
+            // if the player is raising the bet amount it uses this statement
+            if(newBetAmount > currentBetAmount && newBetNumber <= 6 && newBetNumber >= 1){
+                // updates the bet amount and number to the players input
+                currentBetAmount = newBetAmount;
+                currentBetNumber = newBetNumber;
+
+                // updates the bet display
+                document.getElementById("divBet").textContent = "Current bet: " + currentBetAmount + " " + currentBetNumber + "'s";
+                
+                // moves onto the NPC's turn
                 NPCTurn();
             }
+            // if the player is raising the bet number it uses this statement
+            else if(newBetAmount === currentBetAmount && newBetNumber > currentBetNumber && newBetNumber <= 6 && newBetNumber >= 1){
+                // updates the bet amount and number to the players input
+                currentBetAmount = newBetAmount;
+                currentBetNumber = newBetNumber;
+
+                // updates the bet display
+                document.getElementById("divBet").textContent = "Current bet: " + currentBetAmount + " " + currentBetNumber + "'s";
+
+                // moves onto the NPC's turn
+                NPCTurn();
+            }
+            // if this statement is reached the player hasn't entered a valid number
+            else {
+                // updates the bet display to inform the player that their input was invalid
+                document.getElementById("divBet").textContent = "Invalid bet. Current bet: " + currentBetAmount + " " + currentBetNumber + "'s";
+            }
+
+            // console.log(currentBetAmount, currentBetNumber);
         }
 
-        function changeBet(){
-            let newBetAmount = document.getElementById("newBetAmount");
-            let newBetNumber = document.getElementById("newBetNumber");
-
-            let currentBetAmount;
-            let currentBetNumber;
-
-            if(newBetAmount > currentBetAmount && newBetNumber <= 6){
-                let currentBetAmount = newBetAmount;
-                let currentBetNumber = newBetNumber;
-            }
-            else if(newBetAmount = currentBetAmount && newBetNumber > currentBetNumber && newBetNumber <= 6){
-                let currentBetAmount = newBetAmount;
-                let currentBetNumber = newBetNumber;
-            }
-
-            document.getElementById("divBet").textContent = "Current bet: " + currentBetAmount + " " + currentBetNumber + "'s";
-
-            NPCTurn();
-        }
-
+        /* --------------------
+           PLAYER ACCUSES NPC
+        -------------------- */
         function accuseLiar(){
 
+            // variable used to track how many of the currently bet number there are
+            let revealedNumberAmount = 0;
+
+            // this loop checks each element in the array
+            for (let i = 0; i < arrAllRolls.length; i++) {
+                // adds to the revealed number amount for each element the same as the bet number
+                if (arrAllRolls[i] === currentBetNumber) {
+                    revealedNumberAmount++;
+                }
+            }
+
+            // if the bet amount is less than the actual amount it uses this statement
+            if(currentBetAmount <= revealedNumberAmount){
+                // updates the result display to tell the player they were wrong and display the revealed information
+                document.getElementById("divResult").textContent = "You were wrong! There is " + revealedNumberAmount + " " + currentBetNumber + "'s. NPC rolls: " + arrNPCRolls;
+
+                // decreases the player dice by 1
+                playerDice--;
+            }
+            // if the bet amount is more than the actual amount it uses this statement
+            else {
+                // updates the result display to tell the player they were right and display the revealed information
+                document.getElementById("divResult").textContent = "You were right! There is " + revealedNumberAmount + " " + currentBetNumber + "'s. NPC rolls: " + arrNPCRolls;
+
+                // decreases the NPC dice by 1
+                NPCDice--;
+            }
+
+            // checks if the player has lost
+            if(playerDice === 0){
+                // updates the result display to tell the player they lost
+                document.getElementById("divResult").textContent = "You are out of dice. You lose!";
+
+                // hides all of the games buttons
+                document.getElementById("btnBeginRound").hidden =true;
+                document.getElementById("btnChangeBet").hidden =true;
+                document.getElementById("btnAccuseLiar").hidden =true;
+            }
+            // checks if the NPC has lost
+            else if(NPCDice === 0){
+                // updates the result display to tell the player they won
+                document.getElementById("divResult").textContent = "The NPC is out of dice. You win!";
+
+                // hides all of the games buttons
+                document.getElementById("btnBeginRound").hidden =true;
+                document.getElementById("btnChangeBet").hidden =true;
+                document.getElementById("btnAccuseLiar").hidden =true;
+            }
+            // if neither has lost this moves on
+            else{
+                // unhides the begin round button
+                document.getElementById("btnBeginRound").hidden =false;
+                document.getElementById("btnChangeBet").hidden =true;
+                document.getElementById("btnAccuseLiar").hidden =true;
+            }
         }
 
+        /* --------------------
+           NPC TURN LOGIC
+        -------------------- */
         function NPCTurn(){
 
-            let NPCAction = Math.random() * 3;
+            // generates a random number that will determine which action the NPC takes
+            let NPCAction = Math.random();
 
-            if(NPCAction = 1){
-                let currentBetAmount = currentBetAmount ++;
+            // if the NPC takes this action it increases the bet amount
+            // there is a 40% chance of this action occuring
+            if(NPCAction < 0.4){
+                // increases the bet amount by 1
+                currentBetAmount++;
+
+                // updates the bet and result displays to tell the player what the NPC did
+                document.getElementById("divBet").textContent = "Current bet: " + currentBetAmount + " " + currentBetNumber + "'s";
+                document.getElementById("divResult").textContent = "The NPC raised the bet amount";
             }
-            else if(NPCAction = 2 && currentBetNumber != 6){
-                let currentBetNumber = currentBetNumber ++;
+            // if the NPC takes this action it increases the bet number
+            // there is a 35% chance of this action occuring, but if the bet number is already as high as it can be it moves on to accusing
+            else if(NPCAction < 0.75 && currentBetNumber !== 6){
+                // increases the bet number by 1
+                currentBetNumber++;
+
+                // updates the bet and result displays to tell the player what the NPC did
+                document.getElementById("divBet").textContent = "Current bet: " + currentBetAmount + " " + currentBetNumber + "'s";
+                document.getElementById("divResult").textContent = "The NPC raised the bet number";
             }
+            // if the NPC takes this action it accuses the player
+            // there is a 25% chance of this action occuring
             else{
+                // variable used to track how many of the currently bet number there are
+                let revealedNumberAmount = 0;
 
+                // this loop checks each element in the array
+                for (let i = 0; i < arrAllRolls.length; i++) {
+                    // adds to the revealed number amount for each element the same as the bet number
+                    if (arrAllRolls[i] === currentBetNumber) {
+                        revealedNumberAmount++;
+                    }
+                }
+
+                // if the bet amount is less than the actual amount it uses this statement
+                if(currentBetAmount <= revealedNumberAmount){
+                    // updates the result display to tell the player what the NPC did
+                    document.getElementById("divResult").textContent = "The NPC accused you, and was wrong! There is " + revealedNumberAmount + " " + currentBetNumber + "'s. NPC rolls: " + arrNPCRolls;
+                    
+                    // decreases the NPC's dice amount by 1
+                    NPCDice--;
+
+                    // unhides the begin round button
+                    document.getElementById("btnBeginRound").hidden =false;
+                    document.getElementById("btnChangeBet").hidden =true;
+                    document.getElementById("btnAccuseLiar").hidden =true;
+
+                }
+                // if the bet amount is more than the actual amount it uses this statement
+                else {
+                    // updates the result display to tell the player what the NPC did
+                    document.getElementById("divResult").textContent = "The NPC accused you, and was right! There is " + revealedNumberAmount + " " + currentBetNumber + "'s. NPC rolls: " + arrNPCRolls;
+
+                    // decreases the player's dice amount by 1
+                    playerDice--;
+
+                    // unhides the begin round button
+                    document.getElementById("btnBeginRound").hidden =false;
+                    document.getElementById("btnChangeBet").hidden =true;
+                    document.getElementById("btnAccuseLiar").hidden =true;
+                }
+            }
+
+            // checks if the player has lost
+            if(playerDice === 0){
+                // updates the result display to tell the player they lost
+                document.getElementById("divResult").textContent = "You are out of dice. You lose!";
+
+                // hides all of the games buttons
+                document.getElementById("btnBeginRound").hidden =true;
+                document.getElementById("btnChangeBet").hidden =true;
+                document.getElementById("btnAccuseLiar").hidden =true;
+            }
+            // checks if the NPC has lost
+            else if(NPCDice === 0){
+                // updates the result display to tell the player they won
+                document.getElementById("divResult").textContent = "The NPC is out of dice. You win!";
+
+                // hides all of the games buttons
+                document.getElementById("btnBeginRound").hidden =true;
+                document.getElementById("btnChangeBet").hidden =true;
+                document.getElementById("btnAccuseLiar").hidden =true;
             }
         }
 
-        // Create a function to generate a random number
+        /* --------------------
+           DICE ROLL FUNCTION
+        -------------------- */
         // This function was reused from the craps game script
         function RollDice(){
-            // Create a variable to hold a random number
-            // Math.random() is a built in JavaScript function that generates a random number   
-            let Die = Math.random() * 6; // Multiplies number is the possible maximum
+            // generates a random number between 1 and 6 
+            let Die = Math.random() * 6;
 
             // Round the number and return the value
             return Math.ceil(Die);
